@@ -1,5 +1,6 @@
 import axios from "axios";
 import { showMessageWithTimeout } from "../appState/actions";
+import { selectToken, selectUser } from "../user/selectors";
 
 export const setTables = (data) => ({
   type: "SET/tables",
@@ -24,12 +25,20 @@ export function fetchTables() {
 }
 
 export function createReservation(userId, tableId, date) {
-  return async function thunk(dispatch) {
-    const response = await axios.post(`http://localhost:4000/reservations`, {
-      userId,
-      tableId,
-      date,
-    });
+  return async function thunk(dispatch, getState) {
+    const { token } = selectUser(getState());
+    const response = await axios.post(
+      `http://localhost:4000/reservations`,
+      {
+        date,
+        tableId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (response.data.success) {
       dispatch(
@@ -48,12 +57,6 @@ export function fetchReservations(nextDate) {
     dispatch(setReservations(response.data));
   };
 }
-
-router.get("/me", authMiddleware, async (req, res) => {
-  // don't send back the password hash
-  delete req.user.dataValues["password"];
-  res.status(200).send({ ...req.user.dataValues });
-});
 
 // export async function fetchPost(dispatch, getState) {
 //   try {
