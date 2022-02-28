@@ -1,4 +1,5 @@
 import axios from "axios";
+import { showMessageWithTimeout } from "../appState/actions";
 
 export const setTables = (data) => ({
   type: "SET/tables",
@@ -22,6 +23,23 @@ export function fetchTables() {
   };
 }
 
+export function createReservation(userId, tableId, date) {
+  return async function thunk(dispatch) {
+    const response = await axios.post(`http://localhost:4000/reservations`, {
+      userId,
+      tableId,
+      date,
+    });
+
+    if (response.data.success) {
+      dispatch(
+        showMessageWithTimeout("success", false, "Reservation created!", 2500)
+      );
+      dispatch(fetchTables());
+    }
+  };
+}
+
 export function fetchReservations(nextDate) {
   return async function thunk(dispatch) {
     const response = await axios.post(`http://localhost:4000/reservations`, {
@@ -30,6 +48,12 @@ export function fetchReservations(nextDate) {
     dispatch(setReservations(response.data));
   };
 }
+
+router.get("/me", authMiddleware, async (req, res) => {
+  // don't send back the password hash
+  delete req.user.dataValues["password"];
+  res.status(200).send({ ...req.user.dataValues });
+});
 
 // export async function fetchPost(dispatch, getState) {
 //   try {

@@ -1,0 +1,11 @@
+.TableCard {
+    padding: 1rem;
+}
+
+.TableCard.red {
+    background-color: red;
+}
+
+.TableCard.green {
+    background-color: lightgreen;
+}
