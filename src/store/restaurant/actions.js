@@ -20,21 +20,9 @@ const deleteReservationSucces = (reservationId) => {
   };
 };
 
-//GET ALL USERS
-export const getAllUsers = (data) => ({
-  type: "GET/users",
-  payload: data,
-});
-
 export const getDetail = (data) => ({
   type: "GET/detail",
   payload: data,
-});
-
-//TOGGLE BETWEEN BLOCKED/UNBLOCKED
-export const toggleBlocked = (accountBlocked) => ({
-  type: "USER/accountBlocked",
-  payload: accountBlocked,
 });
 
 //SHOW AVAILIBLE TABLES
@@ -115,14 +103,4 @@ export function deleteReservation(id) {
       console.log(error);
     }
   };
-}
-
-//GET AL USERS
-export async function getUsers(dispatch, getState) {
-  try {
-    const response = await axios.get("http://localhost:4000/admin/users");
-    dispatch(getAllUsers(response.data));
-  } catch (error) {
-    console.log("No data");
-  }
 }

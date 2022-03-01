@@ -16,24 +16,25 @@ export default function Reservations() {
     }
   }, [dispatch, token]);
 
-  reservations.sort(function (a, b) {
-    return new Date(b.date) - new Date(a.date);
-  });
   return (
     <div>
       <div className="Reservation-list">
-        {reservations.map((reservation, index) => {
-          return (
-            <ReservationCard
-              key={index}
-              reservationId={reservation.id}
-              date={reservation.date}
-              name={reservation.user.name}
-              email={reservation.user.email}
-              tableId={reservation.tableId}
-            />
-          );
-        })}
+        {reservations.length === 0 ? (
+          <p>no reservations found</p>
+        ) : (
+          reservations.map((reservation, index) => {
+            return (
+              <ReservationCard
+                key={index}
+                reservationId={reservation.id}
+                date={reservation.date}
+                name={reservation.user.name}
+                email={reservation.user.email}
+                tableId={reservation.tableId}
+              />
+            );
+          })
+        )}
       </div>
     </div>
   );

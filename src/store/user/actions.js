@@ -1,6 +1,6 @@
 import { apiUrl } from "../../config/constants";
 import axios from "axios";
-import { selectToken } from "./selectors";
+import { selectToken, selectUser } from "./selectors";
 import {
   appLoading,
   appDoneLoading,
@@ -11,6 +11,13 @@ import {
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const TOKEN_STILL_VALID = "TOKEN_STILL_VALID";
 export const LOG_OUT = "LOG_OUT";
+export const SET_ALLUSERS = "SET/allUsers";
+
+//GET ALL USERS
+export const setAllUsers = (data) => ({
+  type: SET_ALLUSERS,
+  payload: data,
+});
 
 const loginSuccess = (userWithToken) => {
   return {
@@ -109,3 +116,44 @@ export const getUserWithStoredToken = () => {
     }
   };
 };
+
+//GET AL USERS
+export async function getUsers(dispatch, getState) {
+  try {
+    const response = await axios.get("http://localhost:4000/admin/users");
+    dispatch(setAllUsers(response.data));
+  } catch (error) {
+    console.log("No data");
+  }
+}
+
+export const toggleUserBlock = (userId) => {
+  return async (dispatch, getState) => {
+    try {
+      const { token } = selectUser(getState());
+      const response = await axios.get(
+        `http://localhost:4000/admin/user/block/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.warn("toggleUserBlock", response);
+
+      dispatch(getUsers);
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      }
+    }
+  };
+};
+
+//TOGGLE BETWEEN BLOCKED/UNBLOCKED
+// export const toggleUserBlock = (userId) => ({
+//   type: "USER/toggleUserBlock",
+//   payload: userId,
+// });
