@@ -7,6 +7,11 @@ export const setTables = (data) => ({
   payload: data,
 });
 
+export const getReservation = (data) => ({
+  type: "GET/reservations",
+  payload: data,
+});
+
 export const setReservations = (data) => ({
   type: "SET/reservations",
   payload: data,
@@ -17,14 +22,8 @@ export const getDetail = (data) => ({
   payload: data,
 });
 
-export function fetchTables() {
-  return async function thunk(dispatch) {
-    const response = await axios.get(`http://localhost:4000/tables`);
-    dispatch(setTables(response.data));
-  };
-}
-
-export function createReservation(userId, tableId, date) {
+//SHOW AVAILIBLE TABLES
+export function createReservation(tableId, date) {
   return async function thunk(dispatch, getState) {
     const { token } = selectUser(getState());
     const response = await axios.post(
@@ -39,7 +38,6 @@ export function createReservation(userId, tableId, date) {
         },
       }
     );
-
     if (response.data.success) {
       dispatch(
         showMessageWithTimeout("success", false, "Reservation created!", 2500)
@@ -49,12 +47,24 @@ export function createReservation(userId, tableId, date) {
   };
 }
 
-export function fetchReservations(nextDate) {
+//GET all reservations
+export default async function getReservations(dispatch, getState) {
+  try {
+    const response = await axios.get(
+      `http://localhost:4000/admin/reservations`
+    );
+    console.log("Im getting reservation data back", response);
+    dispatch(getReservation(response.data));
+  } catch (error) {
+    console.warn("No data");
+  }
+}
+
+//GET all tables
+export function fetchTables() {
   return async function thunk(dispatch) {
-    const response = await axios.post(`http://localhost:4000/reservations`, {
-      nextDate,
-    });
-    dispatch(setReservations(response.data));
+    const response = await axios.get(`http://localhost:4000/tables`);
+    dispatch(setTables(response.data));
   };
 }
 

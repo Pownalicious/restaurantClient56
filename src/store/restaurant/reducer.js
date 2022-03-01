@@ -12,6 +12,12 @@ export default function reducer(state = initialState, action) {
         tables: action.payload,
       };
     }
+    case "GET/reservations": {
+      return {
+        ...state,
+        reservations: action.payload,
+      };
+    }
     case "SET/reservations": {
       return {
         ...state,
