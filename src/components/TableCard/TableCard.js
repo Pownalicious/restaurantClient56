@@ -16,8 +16,8 @@ export default function ReservationCard(props) {
         (props.isReserved ? "is-reserved red " : "green ") + "TableCard"
       }
     >
-      <p>SEATS: {props.seats}</p>
-      <p> {props.id}</p>
+      <p>Seats: {props.seats}</p>
+      <p>Table: {props.id}</p>
       {!props.isReserved &&
         (token ? (
           <button

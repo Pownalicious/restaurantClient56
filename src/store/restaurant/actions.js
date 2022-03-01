@@ -17,6 +17,7 @@ export const setReservations = (data) => ({
   payload: data,
 });
 
+//DELETE RESERVATION
 const deleteReservationSucces = (reservationId) => {
   return {
     type: "DELETE/reservation",
@@ -24,9 +25,21 @@ const deleteReservationSucces = (reservationId) => {
   };
 };
 
+//GET ALL USERS
+export const getAllUsers = (data) => ({
+  type: "GET/users",
+  payload: data,
+});
+
 export const getDetail = (data) => ({
   type: "GET/detail",
   payload: data,
+});
+
+//TOGGLE BETWEEN BLOCKED/UNBLOCKED
+export const toggleBlocked = (accountBlocked) => ({
+  type: "USER/accountBlocked",
+  payload: accountBlocked,
 });
 
 //SHOW AVAILIBLE TABLES
@@ -57,8 +70,14 @@ export function createReservation(tableId, date) {
 //GET ALL RESERVATIONS
 export default async function getReservations(dispatch, getState) {
   try {
+    const { token } = selectUser(getState());
     const response = await axios.get(
-      `http://localhost:4000/admin/reservations`
+      `http://localhost:4000/admin/reservations`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     console.log("Im getting reservation data back", response);
     dispatch(getReservation(response.data));
@@ -95,3 +114,13 @@ export const deleteReservation = (id) => {
     }
   };
 };
+
+//GET AL USERS
+export async function getUsers(dispatch, getState) {
+  try {
+    const response = await axios.get("http://localhost:4000/admin/users");
+    dispatch(getAllUsers(response.data));
+  } catch (error) {
+    console.log("No data");
+  }
+}

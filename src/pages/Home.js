@@ -26,9 +26,9 @@ export default function HomePage() {
 
   return (
     <div className="home-wrapper">
-      HomePage
       <div className="reservation-field">
-        <label htmlFor="start">Make a reservation:</label>
+        <hr />
+        <label htmlFor="start">Make a reservation </label> <br />
         <input
           type="date"
           name="reservation"

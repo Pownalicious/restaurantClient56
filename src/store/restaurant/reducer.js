@@ -2,6 +2,7 @@ const initialState = {
   tables: [],
   reservations: [],
   detail: null,
+  users: [],
 };
 
 export default function reducer(state = initialState, action) {
@@ -24,7 +25,13 @@ export default function reducer(state = initialState, action) {
         tables: action.payload,
       };
     }
-    case "DELETE/story":
+    case "GET/users": {
+      return {
+        ...state,
+        users: action.payload,
+      };
+    }
+    case "DELETE/reservation":
       return {
         ...state,
         reservations: state.reservations.filter((id) => action.payload !== id),
@@ -34,6 +41,17 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         detail: { ...action.payload },
+      };
+    }
+    case "USER/accountBlocked": {
+      const updateBlock = state.users.includes(action.payload)
+        ? state.users.filter(
+            (accountBlocked) => accountBlocked !== action.payload
+          )
+        : [...state.users, action.payload];
+      return {
+        ...state,
+        favorites: updateBlock,
       };
     }
 
