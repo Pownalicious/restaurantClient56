@@ -8,6 +8,8 @@ export default function Users() {
   const users = useSelector(selectUser);
   const dispatch = useDispatch();
 
+  // console.warn("users", users);
+
   return (
     <div>
       <ul>
@@ -16,7 +18,7 @@ export default function Users() {
             return <UserCard key={index} name={user.name} email={user.email} />;
           })}
           <button onClick={() => dispatch(toggleBlocked(users.id))}>
-            {users.accountBlocked.includes(users.id) ? "Blck" : "unBlock"}
+            {users.accountBlocked ? "Blck" : "unBlock"}
           </button>
         </li>
       </ul>

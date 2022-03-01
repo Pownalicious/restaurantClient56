@@ -46,7 +46,7 @@ export default function HomePage() {
               <TableCard
                 key={index}
                 seats={nextTable.seats}
-                id={nextTable.id}
+                tableId={nextTable.id}
                 isReserved={nextTable.isReserved}
                 selectedDate={date}
               />

@@ -7,11 +7,6 @@ export const setTables = (data) => ({
   payload: data,
 });
 
-export const getReservation = (data) => ({
-  type: "GET/reservations",
-  payload: data,
-});
-
 export const setReservations = (data) => ({
   type: "SET/reservations",
   payload: data,
@@ -58,6 +53,7 @@ export function createReservation(tableId, date) {
         },
       }
     );
+
     if (response.data.success) {
       dispatch(
         showMessageWithTimeout("success", false, "Reservation created!", 2500)
@@ -68,22 +64,24 @@ export function createReservation(tableId, date) {
 }
 
 //GET ALL RESERVATIONS
-export default async function getReservations(dispatch, getState) {
-  try {
-    const { token } = selectUser(getState());
-    const response = await axios.get(
-      `http://localhost:4000/admin/reservations`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    console.log("Im getting reservation data back", response);
-    dispatch(getReservation(response.data));
-  } catch (error) {
-    console.warn("No data");
-  }
+export function getReservations() {
+  return async function thunk(dispatch, getState) {
+    try {
+      const { token } = selectUser(getState());
+      const response = await axios.get(
+        `http://localhost:4000/admin/reservations`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Im getting reservation data back", response);
+      dispatch(setReservations(response.data));
+    } catch (error) {
+      console.warn("No data");
+    }
+  };
 }
 
 //GET ALL TABLES
@@ -95,8 +93,9 @@ export function fetchTables() {
 }
 
 //DELETE ONE RESERVATION
-export const deleteReservation = (id) => {
-  return async (dispatch, getState) => {
+
+export function deleteReservation(id) {
+  return async function thunk(dispatch, getState) {
     const { token } = selectUser(getState());
     try {
       const response = await axios.delete(
@@ -107,13 +106,16 @@ export const deleteReservation = (id) => {
           },
         }
       );
-      console.log("Story deleted", response.data);
-      dispatch(deleteReservationSucces(id));
+
+      if (response.data.success) {
+        console.log("Reservation deleted", response);
+        dispatch(getReservations());
+      }
     } catch (error) {
       console.log(error);
     }
   };
-};
+}
 
 //GET AL USERS
 export async function getUsers(dispatch, getState) {

@@ -6,6 +6,7 @@ export default function UserCard(props) {
       User Card
       <p>{props.name}</p>
       <p>{props.email}</p>
+      <p>{props.accountBlocked}</p>
     </div>
   );
 }

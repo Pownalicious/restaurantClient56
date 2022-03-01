@@ -5,7 +5,7 @@ import { createReservation } from "../../store/restaurant/actions";
 import { selectToken, selectUser } from "../../store/user/selectors";
 import "./TableCard.css";
 
-export default function ReservationCard(props) {
+export default function TableCard(props) {
   const token = useSelector(selectToken);
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ export default function ReservationCard(props) {
         (token ? (
           <button
             onClick={() =>
-              dispatch(createReservation(user.id, props.id, props.selectedDate))
+              dispatch(createReservation(props.tableId, props.selectedDate))
             }
           >
             Reserve table
