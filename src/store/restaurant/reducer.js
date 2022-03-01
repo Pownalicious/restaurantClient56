@@ -24,6 +24,12 @@ export default function reducer(state = initialState, action) {
         tables: action.payload,
       };
     }
+    case "DELETE/story":
+      return {
+        ...state,
+        reservations: state.reservations.filter((id) => action.payload !== id),
+      };
+
     case "FETCH/detail": {
       return {
         ...state,

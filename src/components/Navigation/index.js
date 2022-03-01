@@ -23,6 +23,10 @@ export default function Navigation() {
         <Nav style={{ width: "100%" }} fill>
           <NavbarItem path="/" linkText="Home" />
           <NavbarItem path="/other" linkText="Other" />
+          {/* only if isadmin */}
+          <NavbarItem path="/admin/reservations" linkText="View Reservations" />
+          <NavbarItem path="/admin/users" linkText="Manage Users" />
+
           {loginLogoutControls}
         </Nav>
       </Navbar.Collapse>

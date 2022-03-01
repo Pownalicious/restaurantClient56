@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import TableCard from "../components/TableCard/TableCard";
 
-import { fetchTables, fetchReservations } from "../store/restaurant/actions";
-import {
-  selectReservations,
-  selectTables,
-} from "../store/restaurant/selectors";
+import { fetchTables } from "../store/restaurant/actions";
+import { selectTables } from "../store/restaurant/selectors";
 
 export default function HomePage() {
   const todayUnformatted = new Date().toLocaleDateString("nl-NL", {
@@ -14,9 +11,9 @@ export default function HomePage() {
     month: "2-digit",
     year: "numeric",
   });
+
   const [day, month, year] = todayUnformatted.split("-");
   const today = [year, month, day].join("-");
-  const reservation = useSelector(selectReservations);
   const tables = useSelector(selectTables);
   const [date, setDate] = useState(today);
   const dispatch = useDispatch();
@@ -25,7 +22,6 @@ export default function HomePage() {
     let nextDate = ev.target.value;
     setDate(nextDate);
     dispatch(fetchTables());
-    // dispatch(fetchReservations(nextDate));
   }
 
   return (
@@ -42,7 +38,7 @@ export default function HomePage() {
           onChange={dateOnchangeHandler}
         />
       </div>
-      <div className="TableList">
+      <div className="Table-list">
         {date &&
           tables.map((table, index) => {
             let nextTable = checkReservation(table, date);
