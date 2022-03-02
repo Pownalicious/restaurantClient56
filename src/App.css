@@ -20,6 +20,16 @@
     font-size     : large;
 }
 
+.User-List {
+    display              : grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows   : 1fr 1fr;
+    grid-gap             : 1rem;
+    margin-left          : 271px;
+    margin-top           : 50px;
+    font-weight          : bold;
+}
+
 button {
     align-items        : center;
     background-color   : #0A66C2;

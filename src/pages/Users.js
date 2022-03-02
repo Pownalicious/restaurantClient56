@@ -14,23 +14,21 @@ export default function Users() {
   }, [dispatch]);
 
   return (
-    <div>
-      <ul>
-        {users.length === 0 ? (
-          <p>No users found</p>
-        ) : (
-          users.map((user, index) => {
-            return (
-              <li key={index}>
-                <UserCard key={index} name={user.name} email={user.email} />
-                <button onClick={() => dispatch(toggleUserBlock(user.id))}>
-                  {user.accountBlocked ? "unBlock" : "Block"}
-                </button>
-              </li>
-            );
-          })
-        )}
-      </ul>
+    <div className="User-List">
+      {users.length === 0 ? (
+        <p>No users found</p>
+      ) : (
+        users.map((user, index) => {
+          return (
+            <div key={index}>
+              <UserCard key={index} name={user.name} email={user.email} />
+              <button onClick={() => dispatch(toggleUserBlock(user.id))}>
+                {user.accountBlocked ? "unBlock" : "Block"}
+              </button>
+            </div>
+          );
+        })
+      )}
     </div>
   );
 }
