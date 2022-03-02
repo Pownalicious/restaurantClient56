@@ -2,12 +2,11 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { createReservation } from "../../store/restaurant/actions";
-import { selectToken, selectUser } from "../../store/user/selectors";
+import { selectToken } from "../../store/user/selectors";
 import "./TableCard.css";
 
 export default function TableCard(props) {
   const token = useSelector(selectToken);
-  const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
   return (
@@ -17,7 +16,7 @@ export default function TableCard(props) {
       }
     >
       <p>Seats: {props.seats}</p>
-      <p>Table: {props.id}</p>
+      <p>Table: {props.tableId}</p>
       {!props.isReserved &&
         (token ? (
           <button

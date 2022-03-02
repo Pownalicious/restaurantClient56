@@ -12,14 +12,6 @@ export const setReservations = (data) => ({
   payload: data,
 });
 
-//DELETE RESERVATION
-const deleteReservationSucces = (reservationId) => {
-  return {
-    type: "DELETE/reservation",
-    payload: reservationId,
-  };
-};
-
 export const getDetail = (data) => ({
   type: "GET/detail",
   payload: data,
@@ -29,6 +21,7 @@ export const getDetail = (data) => ({
 export function createReservation(tableId, date) {
   return async function thunk(dispatch, getState) {
     const { token } = selectUser(getState());
+    console.log("createReservation", tableId, date);
     const response = await axios.post(
       `http://localhost:4000/reservations`,
       {
@@ -81,7 +74,6 @@ export function fetchTables() {
 }
 
 //DELETE ONE RESERVATION
-
 export function deleteReservation(id) {
   return async function thunk(dispatch, getState) {
     const { token } = selectUser(getState());

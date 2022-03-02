@@ -25,12 +25,6 @@ export default function reducer(state = initialState, action) {
         users: action.payload,
       };
     }
-    case "DELETE/reservation":
-      return {
-        ...state,
-        reservations: state.reservations.filter((id) => action.payload !== id),
-      };
-
     case "FETCH/detail": {
       return {
         ...state,
@@ -48,7 +42,6 @@ export default function reducer(state = initialState, action) {
         favorites: updateBlock,
       };
     }
-
     default: {
       return state;
     }

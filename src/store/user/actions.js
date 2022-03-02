@@ -151,9 +151,3 @@ export const toggleUserBlock = (userId) => {
     }
   };
 };
-
-//TOGGLE BETWEEN BLOCKED/UNBLOCKED
-// export const toggleUserBlock = (userId) => ({
-//   type: "USER/toggleUserBlock",
-//   payload: userId,
-// });
